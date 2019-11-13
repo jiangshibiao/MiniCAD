@@ -77,7 +77,7 @@ public class Draw extends JFrame{
     }
 }
 class DrawListener implements MouseListener, MouseMotionListener, ActionListener{
-    private final int HEIGHT = 930;
+    private final int HEIGHT = 1000;
     private final int WIDTH = 1000;
     private Stack<Shape>DoList = new Stack<>();
     private Stack<Shape>TodoList = new Stack<>();
@@ -207,10 +207,12 @@ class DrawListener implements MouseListener, MouseMotionListener, ActionListener
            else if (nowSelect.equals("Save")){
                operation = Operation.Saving;
                buildFrame("Saving...", "Please enter your saving path.");
+               nowSelect = "Choose";
            }
            else if (nowSelect.equals("Open")){
                operation = Operation.Opening;
                buildFrame("Opening...", "Please enter your opening path.");
+               nowSelect = "Choose";
            }
            else if (nowSelect.equals("Camera")){
                operation = Operation.Screening;
@@ -220,6 +222,7 @@ class DrawListener implements MouseListener, MouseMotionListener, ActionListener
                for (Shape sh: DoList)
                    sh.draw(biGraph);
                biGraph.dispose();
+               nowSelect = "Choose";
            }
            else if (nowSelect.equals("OK")){
                fileFrame.setVisible(false);
@@ -242,14 +245,9 @@ class DrawListener implements MouseListener, MouseMotionListener, ActionListener
                        case Opening:
                            ObjectInputStream ios;
                            try {
-                               System.out.println("Trying. " + content.getText());
                                ios = new ObjectInputStream(new FileInputStream(content.getText()));
-                               System.out.println("DOING END.");
                                Object obj = ios.readObject();
                                DoList = (Stack<Shape>)obj;
-                               System.out.println("DOING END.");
-                               for (Shape sh: DoList)
-                                   System.out.println(sh.name);
                                myFrame.paint(myGraph);
                            }
                            catch (Exception ie){
@@ -265,26 +263,30 @@ class DrawListener implements MouseListener, MouseMotionListener, ActionListener
                            }
                    }
                }
+               nowSelect = "Choose";
                operation = Operation.OTHER;
            }
            else if (nowSelect.equals("Undo") && !DoList.isEmpty()){
                TodoList.push(DoList.pop());
                myFrame.paint(myGraph);
+               nowSelect = "Choose";
            }
            else if (nowSelect.equals("Redo") && !TodoList.isEmpty()) {
-               System.out.println(TodoList.peek().getName());
                DoList.push(TodoList.pop());
                myFrame.paint(myGraph);
+               nowSelect = "Choose";
            }
            else if (nowSelect.equals("Thicker")){
                if (nowShape != null)
                    nowShape.setSize(nowShape.getSize() + 0.5f);
                myFrame.paint(myGraph);
+               nowSelect = "Choose";
            }
            else if (nowSelect.equals("Thinner")){
                if (nowShape != null)
                    nowShape.setSize(nowShape.getSize() - 0.5f);
                myFrame.paint(myGraph);
+               nowSelect = "Choose";
            }
         }
     }
