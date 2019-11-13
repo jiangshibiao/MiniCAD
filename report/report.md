@@ -267,16 +267,16 @@
 	- 打开时需要反序列化。定义一个 `ObjectInputStream`，从用户指定的路径读入。读入时用 `readObject` 读入一个 `Object` 对象，并将其强转成 `Stack<Shape>`。
 	- 假设图像 bi 已经记录了当前画布，我们只需用 Image.IO.write 导出图片即可。那么如何将我们的画布 `Graphics2D` 放进 `BufferedImage` 里呢？注意到，每个  `BufferedImage` 都有独立的 `Graphics`，可以通过 `getGraphics（）` 函数得到。**但是我们画图时用的 `Graphics` 是 `JFrame` 的**（两者不是同一个），而深拷贝的操作很难实现。所以我采用的方法是，用 `DoList` 把 `BufferedImage` 的 `Graphics` 重新画一遍并保存。
 		~~~Java
-        	if (nowSelect.equals("Camera")){
-               operation = Operation.Screening;
-               buildFrame("Screening...", "Please enter your saving path.");
-               bi = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
-               Graphics biGraph = bi.getGraphics();
-               for (Shape sh: DoList)
-                   sh.draw(biGraph);
-               biGraph.dispose();
-               nowSelect = "Choose";
-           }
+        if (nowSelect.equals("Camera")){
+           operation = Operation.Screening;
+           buildFrame("Screening...", "Please enter your saving path.");
+           bi = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
+           Graphics biGraph = bi.getGraphics();
+           for (Shape sh: DoList)
+               sh.draw(biGraph);
+           biGraph.dispose();
+           nowSelect = "Choose";
+        }
         ~~~
 
 	
